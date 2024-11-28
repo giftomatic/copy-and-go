@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Copy and Go</title>
+    <link
+      href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style role="stylesheet">
+      body {
+        margin: 0;
+        font-family: "PT Sans", sans-serif;
+        color: #00161a;
+        background: #eaf3f5;
+        padding: 0;
+      }
+
+      #content {
+        position: relative;
+        width: 640px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        border-bottom: 3px solid #00434f;
+      }
+
+      #content::before {
+        font: normal normal normal 16px / 1 FontAwesome;
+        box-sizing: border-box;
+        content: "\f023";
+        z-index: 1;
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        line-height: 30px;
+        text-align: center;
+        left: -18px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #fff;
+        border-radius: 18px;
+        border: 3px solid #00434f;
+        color: #00434f;
+      }
+
+      h3 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #notification {
+        display: none;
+        background: #7fc2ab;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #4f8a6f;
+      }
+
+      #notification span.icon {
+        margin-right: 5px;
+      }
+
+      #notification.active {
+        display: block;
+      }
+
+      #notification a {
+        color: #fff;
+      }
+
+      #notification a:hover {
+        text-decoration: none;
+      }
+
+      input {
+        width: 200px;
+        border-radius: 5px;
+        margin-right: 10px;
+        line-height: 32px;
+        padding: 3px 18px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        appearance: none;
+        cursor: pointer;
+        display: inline-block;
+        border-style: solid;
+        background: #ff9900;
+        border-color: #dd790e;
+        border-radius: 5px;
+        border-width: 1px 1px 3px;
+        color: #fff;
+        text-decoration: none;
+        text-align: center;
+        line-height: 32px;
+        padding: 3px 18px;
+        width: max-content;
+      }
+
+      button > .icon {
+        margin-right: 5px;
+      }
+
+      button:hover {
+        background-color: #ff8c00;
+      }
+    </style>
+    <script type="text/javascript">
+      function showNotification() {
+        var notification = document.getElementById("notification");
+        notification.classList.add("active");
+      }
+      function copyToClipboard() {
+        var giftcode = document.getElementById("giftcode");
+        giftcode.select();
+        giftcode.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(giftcode.value);
+      }
+
+      function copy() {
+        copyToClipboard();
+        showNotification();
+      }
+
+      window.addEventListener("load", function () {
+        document
+          .getElementById("copy-go")
+          .addEventListener("click", function (e) {
+            copy();
+          });
+
+        document
+          .getElementById("copy-go-form")
+          .addEventListener("submit", function (e) {
+            var isSafari = /^((?!chrome|android).)*safari/i.test(
+              navigator.userAgent
+            );
+            if (!isSafari) {
+              e.preventDefault();
+              setTimeout(function () {
+                window.open("https://www.amazon.com", "_blank");
+              }, 3000);
+            }
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <h3><i class="fa-regular fa-paste"></i> Copy and Go!</h3>
+
+      <p>Copy your giftcode below and go to Amazon.com</p>
+      <form
+        id="copy-go-form"
+        action="https://www.amazon.com"
+        method="get"
+        target="_blank"
+      >
+        <div id="notification">
+          <span class="icon"><i class="fa-solid fa-clipboard-check"></i></span>
+          <span class="text"
+            >Successfully copied your giftcode, <br />
+            you will be redirected to Amazon.com in 3 seconds, or click
+            <a href="https://www.amazon.com" target="_blank">here</a>!</span
+          >
+        </div>
+        <div>
+          <input
+            type="text"
+            name="giftcode"
+            id="giftcode"
+            value="GWRU-Q5MC5CK-E7MVAP"
+            disabled
+          />
+          <button type="submit" id="copy-go">
+            <span class="icon"><i class="fa-regular fa-paste"></i></span>
+            <span class="text">Copy & GO!</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
