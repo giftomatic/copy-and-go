@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Copy and Go</title>
+    <link rel="preconnect" href="https://use.fontawesome.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
       rel="stylesheet"
@@ -12,161 +15,23 @@
       rel="stylesheet"
     />
 
-    <style role="stylesheet">
-      body {
-        margin: 0;
-        font-family: "PT Sans", sans-serif;
-        color: #00161a;
-        background: #eaf3f5;
-        padding: 0;
-      }
+    <link rel="stylesheet" href="copy-and-go.css" />
 
-      #content {
-        position: relative;
-        width: 640px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-        border-bottom: 3px solid #00434f;
-      }
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const config = {
+          notificationId: "notification",
+          giftcodeId: "giftcode",
+          copyButtonId: "copy-go",
+          formId: "copy-go-form",
+          timeout: 3000, // Set to 0 to omit the delay
+          safariFormTarget: "_self", // Options: "_self" or any other value
+        };
 
-      #content::before {
-        font: normal normal normal 16px / 1 FontAwesome;
-        box-sizing: border-box;
-        content: "\f023";
-        z-index: 1;
-        position: absolute;
-        width: 36px;
-        height: 36px;
-        line-height: 30px;
-        text-align: center;
-        left: -18px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #fff;
-        border-radius: 18px;
-        border: 3px solid #00434f;
-        color: #00434f;
-      }
-
-      h3 {
-        text-align: center;
-      }
-
-      p {
-        text-align: center;
-      }
-
-      form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      }
-
-      #notification {
-        display: none;
-        background: #7fc2ab;
-        color: #fff;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        text-align: center;
-        border: 1px solid #4f8a6f;
-      }
-
-      #notification span.icon {
-        margin-right: 5px;
-      }
-
-      #notification.active {
-        display: block;
-      }
-
-      #notification a {
-        color: #fff;
-      }
-
-      #notification a:hover {
-        text-decoration: none;
-      }
-
-      input {
-        width: 200px;
-        border-radius: 5px;
-        margin-right: 10px;
-        line-height: 32px;
-        padding: 3px 18px;
-        border: 1px solid #ccc;
-      }
-
-      button {
-        appearance: none;
-        cursor: pointer;
-        display: inline-block;
-        border-style: solid;
-        background: #ff9900;
-        border-color: #dd790e;
-        border-radius: 5px;
-        border-width: 1px 1px 3px;
-        color: #fff;
-        text-decoration: none;
-        text-align: center;
-        line-height: 32px;
-        padding: 3px 18px;
-        width: max-content;
-      }
-
-      button > .icon {
-        margin-right: 5px;
-      }
-
-      button:hover {
-        background-color: #ff8c00;
-      }
-    </style>
-    <script type="text/javascript">
-      function showNotification() {
-        var notification = document.getElementById("notification");
-        notification.classList.add("active");
-      }
-      function copyToClipboard() {
-        var giftcode = document.getElementById("giftcode");
-        giftcode.select();
-        giftcode.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(giftcode.value);
-      }
-
-      function copy() {
-        copyToClipboard();
-        showNotification();
-      }
-
-      window.addEventListener("load", function () {
-        document
-          .getElementById("copy-go")
-          .addEventListener("click", function (e) {
-            copy();
-          });
-
-        document
-          .getElementById("copy-go-form")
-          .addEventListener("submit", function (e) {
-            var isSafari = /^((?!chrome|android).)*safari/i.test(
-              navigator.userAgent
-            );
-            if (!isSafari) {
-              e.preventDefault();
-              setTimeout(function () {
-                window.open("https://www.amazon.com", "_blank");
-              }, 3000);
-            }
-          });
+        new CopyNgoHandler(config);
       });
     </script>
+    <script src="copy-and-go.js"></script>
   </head>
   <body>
     <div id="content">
