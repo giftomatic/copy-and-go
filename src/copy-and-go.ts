@@ -1,10 +1,43 @@
 export type CopyAndGoConfig = {
+  /**
+   * Element or ID of the input element that contains the gift code that will be copied to the user's clipboard.
+   */
   giftcode?: string | HTMLInputElement;
+  /**
+   * Element or ID of the button that will trigger the copy action.
+   */
   copyButton?: string | HTMLButtonElement;
+  /**
+   * Element or ID of the form that will be submitted after the copy action.
+   */
   form?: string | HTMLFormElement;
+  /**
+   * A timeout that will be applied before the form is submitted.
+   * This gives the user time to see the notification (that the code is copied to the clipboard) before the form is submitted.
+   */
   timeout?: number;
+  /**
+   * The safari browser can't submit the form in a new window/tab if the form is submitted by a script.
+   * This option allows you overwrite specify the target attribute of the form element in Safari.
+   */
   safariFormTarget?: string;
-} & ({ notification?: string | HTMLElement } | { callback?: () => void });
+} & (
+  | {
+      /**
+       * Specify the element or ID of the notification element that will be shown after the code is copied to the clipboard.
+       * The notification will be shown by adding the class `active` to the element.
+       */
+      notification?: string | HTMLElement;
+    }
+  | {
+      /**
+       * Instead of adding the `active` class to the notification element,
+       * you can specify a callback function that will be called after the code is copied to the clipboard,
+       * e.g. to show your own notification to the user.
+       */
+      callback?: () => void;
+    }
+);
 
 type CopyAndGoConfigWithNotification = {
   notification?: string | HTMLElement;

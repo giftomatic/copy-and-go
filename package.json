@@ -13,7 +13,8 @@
     "build": "pnpm run \"/^build:.*/\"",
     "build:esm": "vite build --mode esm",
     "build:cjs": "vite build --mode cjs",
-    "build:iife": "vite build --mode iife"
+    "build:iife": "vite build --mode iife",
+    "example": "vite example"
   },
   "keywords": [],
   "author": "Giftomatic",
