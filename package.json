@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "module": "dist/es/copy-and-go.js",
+  "module": "dist/esm/copy-and-go.js",
   "main": "dist/cjs/copy-and-go.js",
   "types": "dist/types/copy-and-go.d.ts",
   "type": "module",
@@ -23,7 +23,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/copy-and-go.d.ts",
-      "import": "./dist/es/copy-and-go.js",
+      "import": "./dist/esm/copy-and-go.js",
       "require": "./dist/cjs/copy-and-go.js"
     }
   },
