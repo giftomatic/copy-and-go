@@ -1,7 +1,12 @@
 {
   "name": "@giftomatic/copy-and-go",
   "version": "1.0.3",
-  "description": "",
+  "description": "A simple script to copy a input value to clipboard, showing a notification and redirecting to a new page",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giftomatic/copy-and-go.git"
+  },
+  "homepage": "https://github.com/giftomatic/copy-and-go",
   "scripts": {
     "test": "vitest",
     "prepublish": "npm run build",
@@ -11,7 +16,7 @@
     "build:iife": "vite build --mode iife"
   },
   "keywords": [],
-  "author": "",
+  "author": "Giftomatic",
   "license": "ISC",
   "module": "dist/esm/copy-and-go.js",
   "main": "dist/cjs/copy-and-go.js",
