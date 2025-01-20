@@ -90,9 +90,11 @@ export class CopyAndGo {
 
   attach() {
     this.#copyButton.addEventListener("click", this.#clickListener);
+    // Safari can't submit the form in a new window/tab if the form is submitted by a script.
+    // Only attach the submit listener if the timeout is set and the form should be opened in the same window/tab.
     const shouldAttachFormListener =
       this.#config.timeout > 0 &&
-      (!isSafari() || this.#config.safariFormTarget !== "_self");
+      (!isSafari() || this.#config.safariFormTarget === "_self");
     if (shouldAttachFormListener) {
       this.#form.addEventListener("submit", this.#submitListener);
     }
