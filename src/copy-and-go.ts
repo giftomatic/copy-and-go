@@ -105,6 +105,11 @@ export class CopyAndGo {
     this.#form.removeEventListener("submit", this.#submitListener);
   }
 
+  resetTimout() {
+    // set timeout to 0 to submit the form immediately after the first click
+    this.#config.timeout = 0;
+  }
+
   #clickListener = (_: MouseEvent) => {
     const giftcode =
       typeof this.#config.giftcode === "string"
@@ -137,6 +142,7 @@ export class CopyAndGo {
       // Open the form in a new window/tab after the timeout
       // form.submit() doesn't work when CSP is set to `form-action 'self'`
       window.open(this.#form.action, this.#form.target);
+      this.resetTimout();
     }, this.#config.timeout);
   };
 }
