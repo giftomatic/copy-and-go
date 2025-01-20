@@ -132,7 +132,9 @@ export class CopyAndGo {
     this.#copyButton.disabled = true;
     setTimeout(() => {
       this.#copyButton.disabled = false;
-      this.#form.submit();
+      // Open the form in a new window/tab after the timeout
+      // form.submit() doesn't work when CSP is set to `form-action 'self'`
+      window.open(this.#form.action, this.#form.target);
     }, this.#config.timeout);
   };
 }
