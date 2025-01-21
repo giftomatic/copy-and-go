@@ -72,15 +72,13 @@ describe("CopyAndGo", () => {
       giftcode: input,
     });
 
-    const submit = vi.fn();
-    form.submit = submit.bind(form);
-
+    const open = vi.spyOn(window, "open");
     form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
-    expect(submit).not.toHaveBeenCalled();
+    expect(open).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1000);
-    expect(submit).not.toHaveBeenCalled();
+    expect(open).not.toHaveBeenCalled();
     vi.advanceTimersByTime(2000);
-    expect(submit).toHaveBeenCalled();
+    expect(open).toHaveBeenCalled();
   });
 
   test("after detach the event listeners should not be called", () => {
