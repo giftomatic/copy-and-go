@@ -56,6 +56,7 @@ describe("CopyAndGo", () => {
       giftcode: input,
     });
 
+    copyButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     const text = await navigator.clipboard.readText();
     expect(text).toBe("123456");
   });
@@ -72,13 +73,62 @@ describe("CopyAndGo", () => {
       giftcode: input,
     });
 
-    const open = vi.spyOn(window, "open");
+    const open = vi.fn();
+    vi.stubGlobal("open", open);
+
     form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
     expect(open).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1000);
     expect(open).not.toHaveBeenCalled();
     vi.advanceTimersByTime(2000);
     expect(open).toHaveBeenCalled();
+  });
+
+  test("submitting a second time should call the callback immediately", async () => {
+    const { copyButton, form, input } = setupElements();
+
+    new CopyAndGo({
+      copyButton: copyButton,
+      form: form,
+      giftcode: input,
+    });
+
+    const open = vi.fn();
+    vi.stubGlobal("open", open);
+
+    form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
+    expect(open).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(3000);
+    expect(open).toHaveBeenCalledOnce();
+    form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
+    expect(open).toBeCalledTimes(2);
+  });
+
+  test("submit after detach/attach should use the new timeout", async () => {
+    const { copyButton, form, input } = setupElements();
+
+    const cag = new CopyAndGo({
+      copyButton: copyButton,
+      form: form,
+      giftcode: input,
+    });
+
+    const open = vi.fn();
+    vi.stubGlobal("open", open);
+
+    form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
+    expect(open).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(3000);
+    expect(open).toHaveBeenCalledOnce();
+    open.mockReset();
+
+    cag.detach();
+    cag.attach();
+
+    form.dispatchEvent(new SubmitEvent("submit", { bubbles: true }));
+    expect(open).not.toHaveBeenCalled();
+    vi.advanceTimersToNextTimer();
+    expect(open).toHaveBeenCalledOnce();
   });
 
   test("after detach the event listeners should not be called", () => {
