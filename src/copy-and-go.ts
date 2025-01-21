@@ -51,6 +51,7 @@ export class CopyAndGo {
   #config: CopyAndGoConfigWithNotification;
   #form: HTMLFormElement;
   #copyButton: HTMLElement & { disabled: unknown };
+  #submitted = false;
 
   constructor(config: CopyAndGoConfig = {}) {
     this.#config = {
@@ -89,6 +90,7 @@ export class CopyAndGo {
   }
 
   attach() {
+    this.#submitted = false;
     this.#copyButton.addEventListener("click", this.#clickListener);
     // Safari can't submit the form in a new window/tab if the form is submitted by a script.
     // Only attach the submit listener if the timeout is set and the form should be opened in the same window/tab.
@@ -103,11 +105,6 @@ export class CopyAndGo {
   detach() {
     this.#copyButton.removeEventListener("click", this.#clickListener);
     this.#form.removeEventListener("submit", this.#submitListener);
-  }
-
-  resetTimout() {
-    // set timeout to 0 to submit the form immediately after the first click
-    this.#config.timeout = 0;
   }
 
   #clickListener = (_: MouseEvent) => {
@@ -132,18 +129,28 @@ export class CopyAndGo {
   #submitListener = (event: SubmitEvent) => {
     event.preventDefault();
 
+    const copyButton = this.#copyButton;
+    const form = this.#form;
+
     if (isSafari() && this.#config.safariFormTarget === "_self") {
-      this.#form.target = "_self";
+      form.target = "_self";
     }
 
-    this.#copyButton.disabled = true;
-    setTimeout(() => {
-      this.#copyButton.disabled = false;
+    function open() {
+      copyButton.disabled = false;
       // Open the form in a new window/tab after the timeout
       // form.submit() doesn't work when CSP is set to `form-action 'self'`
-      window.open(this.#form.action, this.#form.target);
-      this.resetTimout();
-    }, this.#config.timeout);
+      window.open(form.action, form.target);
+    }
+
+    copyButton.disabled = true;
+
+    if (this.#submitted) {
+      open();
+    } else {
+      setTimeout(open, this.#config.timeout);
+    }
+    this.#submitted = true;
   };
 }
 
