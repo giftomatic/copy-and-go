@@ -1,6 +1,6 @@
 {
   "name": "@giftomatic/copy-and-go",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple script to copy a input value to clipboard, showing a notification and redirecting to a new page",
   "repository": {
     "type": "git",
